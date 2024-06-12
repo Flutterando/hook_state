@@ -11,7 +11,8 @@ class TestStreamWidget extends StatefulWidget {
   State<TestStreamWidget> createState() => _TestStreamWidgetState();
 }
 
-class _TestStreamWidgetState extends State<TestStreamWidget> with HookState<TestStreamWidget> {
+class _TestStreamWidgetState extends State<TestStreamWidget>
+    with HookStateMixin<TestStreamWidget> {
   final stream = Stream<int>.periodic(
     const Duration(seconds: 1),
     (count) => count + 1,
@@ -29,10 +30,12 @@ class TestStreamCallbackWidget extends StatefulWidget {
   const TestStreamCallbackWidget({super.key});
 
   @override
-  State<TestStreamCallbackWidget> createState() => _TestStreamCallbackWidgetState();
+  State<TestStreamCallbackWidget> createState() =>
+      _TestStreamCallbackWidgetState();
 }
 
-class _TestStreamCallbackWidgetState extends State<TestStreamCallbackWidget> with HookState<TestStreamCallbackWidget> {
+class _TestStreamCallbackWidgetState extends State<TestStreamCallbackWidget>
+    with HookStateMixin<TestStreamCallbackWidget> {
   int callbackCount = 0;
   final stream = Stream<int>.periodic(
     const Duration(seconds: 1),
@@ -52,7 +55,8 @@ class _TestStreamCallbackWidgetState extends State<TestStreamCallbackWidget> wit
 }
 
 void main() {
-  testWidgets('useStream updates the widget when the Stream emits new values', (WidgetTester tester) async {
+  testWidgets('useStream updates the widget when the Stream emits new values',
+      (WidgetTester tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
@@ -79,7 +83,9 @@ void main() {
     expect(find.text('0'), findsNothing);
   });
 
-  testWidgets('useStreamCallback executes the callback when the Stream emits new values', (WidgetTester tester) async {
+  testWidgets(
+      'useStreamCallback executes the callback when the Stream emits new values',
+      (WidgetTester tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(

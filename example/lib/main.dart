@@ -36,7 +36,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with HookState {
+class _HomePageState extends State<HomePage> with HookStateMixin {
   @override
   Widget build(BuildContext context) {
     final state = useNotifier(0);

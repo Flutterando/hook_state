@@ -6,10 +6,13 @@ class TestTextEditingControllerWidget extends StatefulWidget {
   const TestTextEditingControllerWidget({super.key});
 
   @override
-  State<TestTextEditingControllerWidget> createState() => _TestTextEditingControllerWidgetState();
+  State<TestTextEditingControllerWidget> createState() =>
+      _TestTextEditingControllerWidgetState();
 }
 
-class _TestTextEditingControllerWidgetState extends State<TestTextEditingControllerWidget> with HookState<TestTextEditingControllerWidget> {
+class _TestTextEditingControllerWidgetState
+    extends State<TestTextEditingControllerWidget>
+    with HookStateMixin<TestTextEditingControllerWidget> {
   @override
   Widget build(BuildContext context) {
     final controller = useTextEditingController(initialText: "Initial");
@@ -25,7 +28,8 @@ class TestFocusNodeWidget extends StatefulWidget {
   State<TestFocusNodeWidget> createState() => _TestFocusNodeWidgetState();
 }
 
-class _TestFocusNodeWidgetState extends State<TestFocusNodeWidget> with HookState<TestFocusNodeWidget> {
+class _TestFocusNodeWidgetState extends State<TestFocusNodeWidget>
+    with HookStateMixin<TestFocusNodeWidget> {
   @override
   Widget build(BuildContext context) {
     final focusNode = useFocusNode();
@@ -38,10 +42,14 @@ class TestTabControllerWidget extends StatefulWidget {
   const TestTabControllerWidget({super.key});
 
   @override
-  State<TestTabControllerWidget> createState() => _TestTabControllerWidgetState();
+  State<TestTabControllerWidget> createState() =>
+      _TestTabControllerWidgetState();
 }
 
-class _TestTabControllerWidgetState extends State<TestTabControllerWidget> with HookState<TestTabControllerWidget>, SingleTickerProviderStateMixin {
+class _TestTabControllerWidgetState extends State<TestTabControllerWidget>
+    with
+        HookStateMixin<TestTabControllerWidget>,
+        SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final tabController = useTabController(length: 2, vsync: this);
@@ -57,10 +65,12 @@ class TestScrollControllerWidget extends StatefulWidget {
   const TestScrollControllerWidget({super.key});
 
   @override
-  State<TestScrollControllerWidget> createState() => _TestScrollControllerWidgetState();
+  State<TestScrollControllerWidget> createState() =>
+      _TestScrollControllerWidgetState();
 }
 
-class _TestScrollControllerWidgetState extends State<TestScrollControllerWidget> with HookState<TestScrollControllerWidget> {
+class _TestScrollControllerWidgetState extends State<TestScrollControllerWidget>
+    with HookStateMixin<TestScrollControllerWidget> {
   @override
   Widget build(BuildContext context) {
     final scrollController = useScrollController();
@@ -76,10 +86,12 @@ class TestPageControllerWidget extends StatefulWidget {
   const TestPageControllerWidget({super.key});
 
   @override
-  State<TestPageControllerWidget> createState() => _TestPageControllerWidgetState();
+  State<TestPageControllerWidget> createState() =>
+      _TestPageControllerWidgetState();
 }
 
-class _TestPageControllerWidgetState extends State<TestPageControllerWidget> with HookState<TestPageControllerWidget> {
+class _TestPageControllerWidgetState extends State<TestPageControllerWidget>
+    with HookStateMixin<TestPageControllerWidget> {
   @override
   Widget build(BuildContext context) {
     final pageController = usePageController();
@@ -95,7 +107,9 @@ class _TestPageControllerWidgetState extends State<TestPageControllerWidget> wit
 }
 
 void main() {
-  testWidgets('useTextEditingController creates and manages TextEditingController', (WidgetTester tester) async {
+  testWidgets(
+      'useTextEditingController creates and manages TextEditingController',
+      (WidgetTester tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
@@ -109,7 +123,8 @@ void main() {
     expect(textField.controller!.text, 'Initial');
   });
 
-  testWidgets('useFocusNode creates and manages FocusNode', (WidgetTester tester) async {
+  testWidgets('useFocusNode creates and manages FocusNode',
+      (WidgetTester tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
@@ -123,7 +138,8 @@ void main() {
     expect(textField.focusNode, isNotNull);
   });
 
-  testWidgets('useTabController creates and manages TabController', (WidgetTester tester) async {
+  testWidgets('useTabController creates and manages TabController',
+      (WidgetTester tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
@@ -138,7 +154,8 @@ void main() {
     expect(tabBarView.controller!.length, 2);
   });
 
-  testWidgets('useScrollController creates and manages ScrollController', (WidgetTester tester) async {
+  testWidgets('useScrollController creates and manages ScrollController',
+      (WidgetTester tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
@@ -152,7 +169,8 @@ void main() {
     expect(listView.controller, isNotNull);
   });
 
-  testWidgets('usePageController creates and manages PageController', (WidgetTester tester) async {
+  testWidgets('usePageController creates and manages PageController',
+      (WidgetTester tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(

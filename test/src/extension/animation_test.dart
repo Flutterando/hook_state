@@ -6,10 +6,15 @@ class TestAnimationControllerWidget extends StatefulWidget {
   const TestAnimationControllerWidget({super.key});
 
   @override
-  State<TestAnimationControllerWidget> createState() => _TestAnimationControllerWidgetState();
+  State<TestAnimationControllerWidget> createState() =>
+      _TestAnimationControllerWidgetState();
 }
 
-class _TestAnimationControllerWidgetState extends State<TestAnimationControllerWidget> with HookState<TestAnimationControllerWidget>, SingleTickerProviderStateMixin {
+class _TestAnimationControllerWidgetState
+    extends State<TestAnimationControllerWidget>
+    with
+        HookStateMixin<TestAnimationControllerWidget>,
+        SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final controller = useAnimationController(
@@ -36,7 +41,9 @@ class _TestAnimationControllerWidgetState extends State<TestAnimationControllerW
 }
 
 void main() {
-  testWidgets('useAnimationController creates and disposes the AnimationController correctly', (WidgetTester tester) async {
+  testWidgets(
+      'useAnimationController creates and disposes the AnimationController correctly',
+      (WidgetTester tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(

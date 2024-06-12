@@ -85,6 +85,5 @@ class _ListenableHook<R extends Listenable> extends Hook<R> {
   @override
   void dispose() {
     listenable.removeListener(_listener);
-    print(listenable);
   }
 }

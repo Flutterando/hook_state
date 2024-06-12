@@ -30,12 +30,28 @@ flutter pub get
 
 Here is a basic example of how to use `hook_state` to manage a counter.
 
-First, create a new `StatefulWidget`. Then, use a `HookState` as a mixin in the State.
+First, create a new `StatefulWidget`. Then, use a `HookStateMixin` as a mixin in the State.
 After that, you can use the hook methods.
 
 ```dart
-class _ExampleWidgetState extends State<ExampleWidget> with HookState {
+class _ExampleWidgetState extends State<ExampleWidget> with HookStateMixin {
 ```
+
+You can also use the `HookMixin` directly in the `Widget` class, replacing the `StatelessWidget`.
+
+```dart
+class ExampleWidget extends Widget with HookMixin {
+
+  Widget build(BuildContext context) {
+    final counter = useNotifier<int>(0);
+    return Text('$value');
+  }
+}
+
+``
+`
+
+dart
 
 Now you can use a hooks methods in the `build` method.
 This example uses the `useNotifier` hook to manage a `ValueNotifier` and return its value.
@@ -56,7 +72,7 @@ class ExampleWidget extends StatefulWidget {
   _ExampleWidgetState createState() => _ExampleWidgetState();
 }
 
-class _ExampleWidgetState extends State<ExampleWidget> with HookState {
+class _ExampleWidgetState extends State<ExampleWidget> with HookStateMixin {
   @override
   Widget build(BuildContext context) {
     final counter = useNotifier<int>(0);
