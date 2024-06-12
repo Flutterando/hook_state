@@ -44,10 +44,12 @@ class _HomePageState extends State<HomePage> with HookState {
     final state3 = useStream(controller.stream, 0);
     useCallback([counter2], () {
       print('Only callback ${counter.value}');
+      final snackbar = SnackBar(content: Text('Counter: ${counter.value}'));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
     });
 
-    return Material(
-      child: Center(
+    return Scaffold(
+      body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
