@@ -8,14 +8,14 @@ extension StreamHookStateExtension on HookState {
   /// Registers a StreamHook to listen to a Stream.
   /// Returns the latest value emitted by the Stream.
   R useStream<R>(Stream<R> stream, R initialValue) {
-    final hook = StreamHook<R>(stream, initialValue);
+    final hook = _StreamHook<R>(stream, initialValue);
     return use(hook).value;
   }
 
   /// Registers a StreamCallbackHook to listen to a Stream and execute a callback.
   /// The callback is executed every time the Stream emits a new value.
   void useStreamCallback<R>(Stream<R> stream, void Function(R state) callback) {
-    final hook = StreamCallbackHook<R>(stream, (R state) {
+    final hook = _StreamCallbackHook<R>(stream, (R state) {
       callback(state);
       resetIndex();
     });
@@ -24,13 +24,13 @@ extension StreamHookStateExtension on HookState {
 }
 
 /// A Hook to listen to a Stream and execute a callback for each emitted value.
-class StreamCallbackHook<R> extends Hook<R> {
+class _StreamCallbackHook<R> extends Hook<R> {
   final Stream<R> stream;
   final void Function(R state) callback;
 
   late final StreamSubscription<R> subscription;
 
-  StreamCallbackHook(this.stream, this.callback);
+  _StreamCallbackHook(this.stream, this.callback);
 
   @override
   void init() {
@@ -44,12 +44,12 @@ class StreamCallbackHook<R> extends Hook<R> {
 }
 
 /// A Hook to listen to a Stream and trigger rebuilds with new values.
-class StreamHook<R> extends Hook<R> {
+class _StreamHook<R> extends Hook<R> {
   final Stream<R> stream;
   late final StreamSubscription<R> subscription;
   R value;
 
-  StreamHook(this.stream, this.value);
+  _StreamHook(this.stream, this.value);
 
   @override
   void init() {

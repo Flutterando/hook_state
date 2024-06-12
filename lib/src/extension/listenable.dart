@@ -10,7 +10,7 @@ extension ListenableHookStateExtension on HookState {
     R notifier, {
     bool Function(R value)? when,
   }) {
-    final hook = ListenableHook(notifier, when);
+    final hook = _ListenableHook(notifier, when);
     use(hook);
   }
 
@@ -20,7 +20,7 @@ extension ListenableHookStateExtension on HookState {
     ValueNotifier<R> notifier, {
     bool Function(R value)? when,
   }) {
-    final hook = ListenableHook<ValueNotifier<R>>(
+    final hook = _ListenableHook<ValueNotifier<R>>(
       notifier,
       (notifier) => when?.call(notifier.value) ?? true,
     );
@@ -30,7 +30,7 @@ extension ListenableHookStateExtension on HookState {
   /// Registers a CallbackHook to invoke a callback when a Listenable changes.
   void useCallback(List<Listenable> notifiers, void Function() callback) {
     final listeners = Listenable.merge(notifiers);
-    final hook = CallbackHook(listeners, () {
+    final hook = _CallbackHook(listeners, () {
       callback();
       resetIndex();
     });
@@ -40,17 +40,18 @@ extension ListenableHookStateExtension on HookState {
   /// Registers a ValueNotifier with an initial value.
   /// Returns the ValueNotifier.
   ValueNotifier<R> useNotifier<R>(R initialValue) {
-    final hook = ListenableHook<ValueNotifier<R>>(ValueNotifier(initialValue), null);
+    final hook =
+        _ListenableHook<ValueNotifier<R>>(ValueNotifier(initialValue), null);
     return use(hook).listenable;
   }
 }
 
 /// A Hook to handle callbacks when a Listenable changes.
-class CallbackHook extends Hook<Listenable> {
+class _CallbackHook extends Hook<Listenable> {
   final Listenable listenable;
   final void Function() callback;
 
-  CallbackHook(this.listenable, this.callback);
+  _CallbackHook(this.listenable, this.callback);
 
   @override
   void init() {
@@ -64,11 +65,11 @@ class CallbackHook extends Hook<Listenable> {
 }
 
 /// A Hook to listen to changes in a Listenable object and trigger rebuilds.
-class ListenableHook<R extends Listenable> extends Hook<R> {
+class _ListenableHook<R extends Listenable> extends Hook<R> {
   final R listenable;
   final bool Function(R)? when;
 
-  ListenableHook(this.listenable, this.when);
+  _ListenableHook(this.listenable, this.when);
 
   @override
   void init() {

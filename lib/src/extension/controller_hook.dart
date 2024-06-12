@@ -10,14 +10,14 @@ extension ControllerHookStateExtension on HookState {
   TextEditingController useTextEditingController({
     String? initialText,
   }) {
-    final hook = TextEditingControllerHook(initialText);
+    final hook = _TextEditingControllerHook(initialText);
     return use(hook).controller;
   }
 
   /// Registers a FocusNodeHook to manage a FocusNode.
   /// Returns the created FocusNode.
   FocusNode useFocusNode() {
-    final hook = FocusNodeHook();
+    final hook = _FocusNodeHook();
     return use(hook).focusNode;
   }
 
@@ -28,7 +28,7 @@ extension ControllerHookStateExtension on HookState {
     required TickerProvider vsync,
     int initialIndex = 0,
   }) {
-    final hook = TabControllerHook(length, vsync, initialIndex);
+    final hook = _TabControllerHook(length, vsync, initialIndex);
     return use(hook).controller;
   }
 
@@ -38,7 +38,7 @@ extension ControllerHookStateExtension on HookState {
     double initialScrollOffset = 0.0,
     bool keepScrollOffset = true,
   }) {
-    final hook = ScrollControllerHook(initialScrollOffset, keepScrollOffset);
+    final hook = _ScrollControllerHook(initialScrollOffset, keepScrollOffset);
     return use(hook).controller;
   }
 
@@ -49,17 +49,17 @@ extension ControllerHookStateExtension on HookState {
     bool keepPage = true,
     double viewportFraction = 1.0,
   }) {
-    final hook = PageControllerHook(initialPage, keepPage, viewportFraction);
+    final hook = _PageControllerHook(initialPage, keepPage, viewportFraction);
     return use(hook).controller;
   }
 }
 
-class TextEditingControllerHook extends Hook<TextEditingController> {
+class _TextEditingControllerHook extends Hook<TextEditingController> {
   final String? initialText;
 
   late final TextEditingController controller;
 
-  TextEditingControllerHook(this.initialText);
+  _TextEditingControllerHook(this.initialText);
 
   @override
   void init() {
@@ -72,11 +72,8 @@ class TextEditingControllerHook extends Hook<TextEditingController> {
   }
 }
 
-class FocusNodeHook extends Hook<FocusNode> {
+class _FocusNodeHook extends Hook<FocusNode> {
   late final FocusNode focusNode;
-
-  FocusNodeHook();
-
   @override
   void init() {
     focusNode = FocusNode();
@@ -88,14 +85,14 @@ class FocusNodeHook extends Hook<FocusNode> {
   }
 }
 
-class TabControllerHook extends Hook<TabController> {
+class _TabControllerHook extends Hook<TabController> {
   final int length;
   final TickerProvider vsync;
   final int initialIndex;
 
   late final TabController controller;
 
-  TabControllerHook(this.length, this.vsync, this.initialIndex);
+  _TabControllerHook(this.length, this.vsync, this.initialIndex);
 
   @override
   void init() {
@@ -112,13 +109,13 @@ class TabControllerHook extends Hook<TabController> {
   }
 }
 
-class ScrollControllerHook extends Hook<ScrollController> {
+class _ScrollControllerHook extends Hook<ScrollController> {
   final double initialScrollOffset;
   final bool keepScrollOffset;
 
   late final ScrollController controller;
 
-  ScrollControllerHook(this.initialScrollOffset, this.keepScrollOffset);
+  _ScrollControllerHook(this.initialScrollOffset, this.keepScrollOffset);
 
   @override
   void init() {
@@ -134,14 +131,14 @@ class ScrollControllerHook extends Hook<ScrollController> {
   }
 }
 
-class PageControllerHook extends Hook<PageController> {
+class _PageControllerHook extends Hook<PageController> {
   final int initialPage;
   final bool keepPage;
   final double viewportFraction;
 
   late final PageController controller;
 
-  PageControllerHook(this.initialPage, this.keepPage, this.viewportFraction);
+  _PageControllerHook(this.initialPage, this.keepPage, this.viewportFraction);
 
   @override
   void init() {

@@ -17,7 +17,7 @@ extension AnimationHookStateExtension on HookState {
     double? value,
     AnimationBehavior animationBehavior = AnimationBehavior.normal,
   }) {
-    final hook = AnimationControllerHook(
+    final hook = _AnimationControllerHook(
       duration: duration,
       debugLabel: debugLabel,
       lowerBound: lowerBound,
@@ -31,7 +31,7 @@ extension AnimationHookStateExtension on HookState {
 }
 
 /// A Hook to manage an AnimationController.
-class AnimationControllerHook extends Hook<AnimationController> {
+class _AnimationControllerHook extends Hook<AnimationController> {
   final Duration duration;
   final String? debugLabel;
   final double lowerBound;
@@ -42,7 +42,7 @@ class AnimationControllerHook extends Hook<AnimationController> {
 
   late final AnimationController controller;
 
-  AnimationControllerHook({
+  _AnimationControllerHook({
     required this.duration,
     this.debugLabel,
     this.lowerBound = 0.0,
