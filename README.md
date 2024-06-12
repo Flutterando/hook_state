@@ -28,7 +28,24 @@ flutter pub get
 
 ### Basic Example
 
-Here is a basic example of how to use `hook_state` to manage a counter:
+Here is a basic example of how to use `hook_state` to manage a counter.
+
+First, create a new `StatefulWidget`. Then, use a `HookState` as a mixin in the State.
+After that, you can use the hook methods.
+
+```dart
+class _ExampleWidgetState extends State<ExampleWidget> with HookState {
+```
+
+Now you can use a hooks methods in the `build` method.
+This example uses the `useNotifier` hook to manage a `ValueNotifier` and return its value.
+
+````dart
+@override
+  Widget build(BuildContext context) {
+    final counter = useNotifier<int>(0);
+```
+See the full example below:
 
 ```dart
 import 'package:flutter/material.dart';
@@ -39,7 +56,7 @@ class ExampleWidget extends StatefulWidget {
   _ExampleWidgetState createState() => _ExampleWidgetState();
 }
 
-class _ExampleWidgetState extends State<ExampleWidget> with HookState<ExampleWidget> {
+class _ExampleWidgetState extends State<ExampleWidget> with HookState {
   @override
   Widget build(BuildContext context) {
     final counter = useNotifier<int>(0);
@@ -86,99 +103,6 @@ class _ExampleWidgetState extends State<ExampleWidget> with HookState<ExampleWid
 | `useAnimationController`  | Manages an `AnimationController`                               |
 | `useStreamCallback`       | Listens to a `Stream` and executes a callback on new values    |
 
-### Example Usage of All Hooks
-
-Here is an example showing how to use each of the available hooks:
-
-```dart
-import 'package:flutter/material.dart';
-import 'package:hook_state/hook_state.dart';
-
-class ExampleAllHooksWidget extends StatefulWidget {
-  @override
-  _ExampleAllHooksWidgetState createState() => _ExampleAllHooksWidgetState();
-}
-
-class _ExampleAllHooksWidgetState extends State<ExampleAllHooksWidget> with HookState<ExampleAllHooksWidget>, SingleTickerProviderStateMixin {
-  @override
-  Widget build(BuildContext context) {
-    final counter = useNotifier<int>(0);
-    final streamValue = useStream<int>(Stream<int>.periodic(Duration(seconds: 1), (x) => x).take(10), 0);
-    final textController = useTextEditingController(initialText: "Hello");
-    final focusNode = useFocusNode();
-    final tabController = useTabController(length: 2, vsync: this);
-    final scrollController = useScrollController();
-    final pageController = usePageController();
-    final animationController = useAnimationController(duration: Duration(seconds: 1));
-
-    useStreamCallback<int>(Stream<int>.periodic(Duration(seconds: 1), (x) => x).take(10), (value) {
-      print('Stream value: $value');
-    });
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('All Hooks Example'),
-        bottom: TabBar(
-          controller: tabController,
-          tabs: [Tab(text: 'Tab 1'), Tab(text: 'Tab 2')],
-        ),
-      ),
-      body: TabBarView(
-        controller: tabController,
-        children: [
-          Column(
-            children: [
-              TextField(controller: textController, focusNode: focusNode),
-              Text('Counter: ${counter.value}'),
-              Text('Stream Value: $streamValue'),
-              ElevatedButton(
-                onPressed: () {
-                  counter.value += 1;
-                },
-                child: Text('Increment Counter'),
-              ),
-              Container(
-                height: 100,
-                color: Colors.blue,
-                child: ListView.builder(
-                  controller: scrollController,
-                  itemCount: 20,
-                  itemBuilder: (context, index) => ListTile(title: Text('Item $index')),
-                ),
-              ),
-              Container(
-                height: 100,
-                color: Colors.red,
-                child: PageView(
-                  controller: pageController,
-                  children: [Text('Page 1'), Text('Page 2')],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  animationController.forward();
-                },
-                child: AnimatedBuilder(
-                  animation: animationController,
-                  builder: (context, child) {
-                    return Container(
-                      width: animationController.value * 100,
-                      height: animationController.value * 100,
-                      color: Colors.green,
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-          Center(child: Text('Tab 2 Content')),
-        ],
-      ),
-    );
-  }
-}
-```
-
 ## Creating Custom Hooks
 
 You can create custom hooks by extending `Hook` and using extensions. Here’s an example:
@@ -188,11 +112,8 @@ You can create custom hooks by extending `Hook` and using extensions. Here’s a
 #### Implementing the Custom Hook
 
 ```dart
-// src/extension/custom_hooks.dart
-
 import 'package:flutter/material.dart';
-import '../hook.dart';
-import '../hook_state.dart';
+import 'package:hook_state/hook_state.dart';
 
 extension CustomHookStateExtension on HookState {
   /// Registers a GlobalKeyHook to manage a GlobalKey.
@@ -231,7 +152,7 @@ class ExampleCustomHookWidget extends StatefulWidget {
   _ExampleCustomHookWidgetState createState() => _ExampleCustomHookWidgetState();
 }
 
-class _ExampleCustomHookWidgetState extends State<ExampleCustomHookWidget> with HookState<ExampleCustomHookWidget> {
+class _ExampleCustomHookWidgetState extends State<ExampleCustomHookWidget> with HookState {
   @override
   Widget build(BuildContext context) {
     final key = useGlobalKey<_CustomWidgetState>();
