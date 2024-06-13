@@ -27,10 +27,11 @@ extension ListenableHookStateExtension on HookState {
     return use(hook).listenable.value;
   }
 
-  /// Registers a CallbackHook to invoke a callback when a Listenable changes.
-  void useCallback(List<Listenable> notifiers, void Function() callback) {
+  /// Registers a callback to be executed when a Listenable changes.
+  void useListenableChanged(
+      List<Listenable> notifiers, void Function() callback) {
     final listeners = Listenable.merge(notifiers);
-    final hook = _CallbackHook(listeners, () {
+    final hook = _ListenableChangedHook(listeners, () {
       callback();
       resetIndex();
     });
@@ -47,11 +48,11 @@ extension ListenableHookStateExtension on HookState {
 }
 
 /// A Hook to handle callbacks when a Listenable changes.
-class _CallbackHook extends Hook<Listenable> {
+class _ListenableChangedHook extends Hook<Listenable> {
   final Listenable listenable;
   final void Function() callback;
 
-  _CallbackHook(this.listenable, this.callback);
+  _ListenableChangedHook(this.listenable, this.callback);
 
   @override
   void init() {

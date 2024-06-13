@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> with HookStateMixin {
     final state = useNotifier(0);
     final state2 = useValueNotifier(counter);
     final state3 = useStream(controller.stream, 0);
-    useCallback([counter2], () {
+    useListenableChanged([counter2], () {
       print('Only callback ${counter.value}');
       final snackbar = SnackBar(content: Text('Counter: ${counter.value}'));
       ScaffoldMessenger.of(context).showSnackBar(snackbar);

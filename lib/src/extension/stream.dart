@@ -14,8 +14,8 @@ extension StreamHookStateExtension on HookState {
 
   /// Registers a StreamCallbackHook to listen to a Stream and execute a callback.
   /// The callback is executed every time the Stream emits a new value.
-  void useStreamCallback<R>(Stream<R> stream, void Function(R state) callback) {
-    final hook = _StreamCallbackHook<R>(stream, (R state) {
+  void useStreamChanged<R>(Stream<R> stream, void Function(R state) callback) {
+    final hook = _StreamChangedHook<R>(stream, (R state) {
       callback(state);
       resetIndex();
     });
@@ -24,13 +24,13 @@ extension StreamHookStateExtension on HookState {
 }
 
 /// A Hook to listen to a Stream and execute a callback for each emitted value.
-class _StreamCallbackHook<R> extends Hook<R> {
+class _StreamChangedHook<R> extends Hook<R> {
   final Stream<R> stream;
   final void Function(R state) callback;
 
   late final StreamSubscription<R> subscription;
 
-  _StreamCallbackHook(this.stream, this.callback);
+  _StreamChangedHook(this.stream, this.callback);
 
   @override
   void init() {

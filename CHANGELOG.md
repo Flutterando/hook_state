@@ -1,3 +1,8 @@
+## 0.3.0
+
+* Changed useCallback to useListenableChanged.
+* Changed useStreamCallback to useStreamChanged.
+
 ## 0.2.0
 
 * Added ValueSelector and AsyncValueSelector;

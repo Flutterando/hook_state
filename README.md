@@ -103,20 +103,22 @@ class _ExampleWidgetState extends State<ExampleWidget> with HookStateMixin {
 
 ## Available Hooks
 
-| Hook                       | Description                                                 |
-|----------------------------|-------------------------------------------------------------|
-| `useNotifier`              | Create a `ValueNotifier` and returns its value              |
-| `useListenable`            | Listen a `Listenable` like `ChangeNotifier`                 |
-| `useValueNotifier`         | Listen a `ValueNotifier` and returns its value              |
-| `useValueSelector`         | Listen a `ValueSelector` and returns its value              |
-| `useStream`                | Listens to a `Stream` and returns the latest emitted value  |
-| `useTextEditingController` | Manages a `TextEditingController`                           |
-| `useFocusNode`             | Manages a `FocusNode`                                       |
-| `useTabController`         | Manages a `TabController`                                   |
-| `useScrollController`      | Manages a `ScrollController`                                |
-| `usePageController`        | Manages a `PageController`                                  |
-| `useAnimationController`   | Manages an `AnimationController`                            |
-| `useStreamCallback`        | Listens to a `Stream` and executes a callback on new values |
+| Hook                       | Description                                                |
+|----------------------------|------------------------------------------------------------|
+| `useNotifier`              | Create a `ValueNotifier` and returns its value             |
+| `useListenable`            | Listen a `Listenable` like `ChangeNotifier`                |
+| `useListenableChanged`     | Listen a `Listenable` and execute a callback               |
+| `useValueNotifier`         | Listen a `ValueNotifier` and returns its value             |
+| `useValueSelector`         | Listen a `ValueSelector` and returns its value             |
+| `useStream`                | Listens to a `Stream` and returns the latest emitted value |
+| `useStreamChanged`         | Listen a `Listenable` and execute a callback               |
+| `useStreamController`      | Create a `StreamController`                                |
+| `useTextEditingController` | Manages a `TextEditingController`                          |
+| `useFocusNode`             | Manages a `FocusNode`                                      |
+| `useTabController`         | Manages a `TabController`                                  |
+| `useScrollController`      | Manages a `ScrollController`                               |
+| `usePageController`        | Manages a `PageController`                                 |
+| `useAnimationController`   | Manages an `AnimationController`                           |
 
 ## Creating Custom Hooks
 

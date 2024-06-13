@@ -192,7 +192,7 @@ class _TestCallbackWidgetState extends State<TestCallbackWidget>
 
   @override
   Widget build(BuildContext context) {
-    useCallback([notifier], () {
+    useListenableChanged([notifier], () {
       setState(() {
         callbackCount++;
       });

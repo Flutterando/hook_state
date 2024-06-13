@@ -44,7 +44,7 @@ class _TestStreamCallbackWidgetState extends State<TestStreamCallbackWidget>
 
   @override
   Widget build(BuildContext context) {
-    useStreamCallback(stream, (value) {
+    useStreamChanged(stream, (value) {
       setState(() {
         callbackCount = value;
       });

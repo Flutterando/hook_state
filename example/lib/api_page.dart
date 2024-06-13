@@ -26,6 +26,7 @@ class _ApiPageState extends State<ApiPage> with HookStateMixin {
   @override
   Widget build(BuildContext context) {
     final user = useValueSelector(userState);
+    final controller = useTextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Api Page'),

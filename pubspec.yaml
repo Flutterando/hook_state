@@ -1,6 +1,6 @@
 name: hook_state
 description: "A Flutter package inspired by React hooks and the `flutter_hooks` package. It offers a similar hooks experience but without the need for additional widgets, allowing you to use just `StatefulWidget` to manage complex states declaratively and reactively."
-version: 0.2.0
+version: 0.2.1
 homepage: https://github.com/Flutterando/hook_state
 
 environment:
