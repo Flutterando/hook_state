@@ -13,15 +13,8 @@ The motivation behind this package is to provide a simpler and more intuitive de
 
 Add the dependency to your `pubspec.yaml`:
 
-```yaml
-dependencies:
-  hook_state: ^1.0.0
 ```
-
-Then, install the packages with the command:
-
-```sh
-flutter pub get
+flutter pub add hook_state
 ```
 
 ## Usage
@@ -47,6 +40,7 @@ class ExampleWidget extends Widget with HookMixin {
     return Text('$value');
   }
 }
+```
 
 Now you can use a hooks methods in the `build` method.
 This example uses the `useNotifier` hook to manage a `ValueNotifier` and return its value.

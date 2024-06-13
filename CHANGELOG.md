@@ -1,4 +1,4 @@
-## 0.3.0
+## 0.3.0+1
 
 * Changed useCallback to useListenableChanged.
 * Changed useStreamCallback to useStreamChanged.
