@@ -30,6 +30,7 @@ environment:
 dependencies:
   hook_state:
     path: ../
+  dio: any
   flutter:
     sdk: flutter
 

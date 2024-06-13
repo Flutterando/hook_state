@@ -6,12 +6,12 @@ import '../hook_state.dart';
 /// Extension methods for HookState to handle Listenable-based Hooks.
 extension ListenableHookStateExtension on HookState {
   /// Registers a ListenableHook to listen to a Listenable object.
-  void useListenable<R extends Listenable>(
+  R useListenable<R extends Listenable>(
     R notifier, {
     bool Function(R value)? when,
   }) {
     final hook = _ListenableHook(notifier, when);
-    use(hook);
+    return use(hook).listenable;
   }
 
   /// Registers a ValueNotifierHook to listen to a ValueNotifier.

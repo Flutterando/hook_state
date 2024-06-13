@@ -48,18 +48,14 @@ class ExampleWidget extends Widget with HookMixin {
   }
 }
 
-``
-`
-
-dart
-
 Now you can use a hooks methods in the `build` method.
 This example uses the `useNotifier` hook to manage a `ValueNotifier` and return its value.
 
-````dart
+```dart
 @override
   Widget build(BuildContext context) {
     final counter = useNotifier<int>(0);
+    ...
 ```
 See the full example below:
 
@@ -107,17 +103,20 @@ class _ExampleWidgetState extends State<ExampleWidget> with HookStateMixin {
 
 ## Available Hooks
 
-| Hook                      | Description                                                    |
-|---------------------------|----------------------------------------------------------------|
-| `useNotifier`             | Manages a `ValueNotifier` and returns its value                |
-| `useStream`               | Listens to a `Stream` and returns the latest emitted value     |
-| `useTextEditingController`| Manages a `TextEditingController`                              |
-| `useFocusNode`            | Manages a `FocusNode`                                          |
-| `useTabController`        | Manages a `TabController`                                      |
-| `useScrollController`     | Manages a `ScrollController`                                   |
-| `usePageController`       | Manages a `PageController`                                     |
-| `useAnimationController`  | Manages an `AnimationController`                               |
-| `useStreamCallback`       | Listens to a `Stream` and executes a callback on new values    |
+| Hook                       | Description                                                 |
+|----------------------------|-------------------------------------------------------------|
+| `useNotifier`              | Create a `ValueNotifier` and returns its value              |
+| `useListenable`            | Listen a `Listenable` like `ChangeNotifier`                 |
+| `useValueNotifier`         | Listen a `ValueNotifier` and returns its value              |
+| `useValueSelector`         | Listen a `ValueSelector` and returns its value              |
+| `useStream`                | Listens to a `Stream` and returns the latest emitted value  |
+| `useTextEditingController` | Manages a `TextEditingController`                           |
+| `useFocusNode`             | Manages a `FocusNode`                                       |
+| `useTabController`         | Manages a `TabController`                                   |
+| `useScrollController`      | Manages a `ScrollController`                                |
+| `usePageController`        | Manages a `PageController`                                  |
+| `useAnimationController`   | Manages an `AnimationController`                            |
+| `useStreamCallback`        | Listens to a `Stream` and executes a callback on new values |
 
 ## Creating Custom Hooks
 
@@ -168,7 +167,7 @@ class ExampleCustomHookWidget extends StatefulWidget {
   _ExampleCustomHookWidgetState createState() => _ExampleCustomHookWidgetState();
 }
 
-class _ExampleCustomHookWidgetState extends State<ExampleCustomHookWidget> with HookState {
+class _ExampleCustomHookWidgetState extends State<ExampleCustomHookWidget> with HookStateMixin {
   @override
   Widget build(BuildContext context) {
     final key = useGlobalKey<_CustomWidgetState>();
@@ -211,13 +210,64 @@ class _CustomWidgetState extends State<CustomWidget> {
 }
 ```
 
-## Running Tests
+# Computed ValueNotifier with ValueSelector/AsyncValueSelector
 
-Ensure that the tests cover all use cases:
+## ValueSelector
 
-```sh
-flutter test
+`ValueSelector` is a tool that allows you to derive new state from existing state in a
+Flutter application.
+
+It is designed to compute a synchronous value based on a provided function.
+When the dependent state changes, `ValueSelector` will recompute the value and
+notify any listeners, so your UI can reactively update.
+
+```dart
+final nameState = ValueNotifier('name');
+final lastNameState = ValueNotifier('last');
+
+final fullNameSelector = ValueSelector<String>(
+  (get) {
+    final name = get(nameState);
+    final lastName = get(lastNameState);
+    return '$name $lastName';
+  },
+);
 ```
+
+## AsyncValueSelector
+
+`AsyncValueSelector` is similar to `ValueSelector` but is designed for asynchronous operations.
+This means it can handle tasks like fetching data from an API or performing
+long-running calculations without blocking the main thread.
+
+It ensures that
+only one asynchronous task is processed at a time, and notifies listeners
+once the new value is ready.
+
+```dart 
+
+final userId = ValueNotifier<int>(1);
+
+final userSelector = AsyncValueSelector<User>(
+  (get) async {
+    final id = get(userId);
+    final response = await http.get('https://jsonplaceholder.typicode.com/users/$id');
+    return User.fromJson(json.decode(response.body));
+  },
+);
+
+```
+
+Use the `useValueSelector` hooks to listen to the computed values.
+
+```dart
+Widget build(BuildContext context){
+  final user = useValueSelector(userSelector);
+  ...
+}
+```
+
+```dart
 
 ## Contribution
 
