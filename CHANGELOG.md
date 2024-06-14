@@ -1,3 +1,7 @@
+## 0.4.1
+
+* HookMixin now in Stateless;
+
 ## 0.4.0
 
 * Remove Selectors.

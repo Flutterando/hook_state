@@ -33,7 +33,7 @@ class _ExampleWidgetState extends State<ExampleWidget> with HookStateMixin {
 You can also use the `HookMixin` directly in the `Widget` class, replacing the `StatelessWidget`.
 
 ```dart
-class ExampleWidget extends Widget with HookMixin {
+class ExampleWidget extends StatelessWidget with HookMixin {
 
   Widget build(BuildContext context) {
     final counter = useNotifier<int>(0);

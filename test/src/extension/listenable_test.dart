@@ -112,7 +112,7 @@ void main() {
   });
 }
 
-class TestStatelessWidget extends Widget with HookMixin {
+class TestStatelessWidget extends StatelessWidget with HookMixin {
   final ValueNotifier<int> notifier;
 
   TestStatelessWidget({super.key, required this.notifier});

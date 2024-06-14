@@ -44,8 +44,7 @@ abstract class HookState {
   void resetIndex();
 }
 
-mixin HookStateMixin<T extends StatefulWidget> on State<T>
-    implements HookState {
+mixin HookStateMixin<T extends StatefulWidget> on State<T> implements HookState {
   final _hookController = _HookController();
 
   @override
@@ -78,11 +77,11 @@ class _MutableController {
   R use<R extends Hook>(R hook) => hookController!.use<R>(hook, listener!);
 }
 
-mixin HookMixin on Widget implements HookState {
+mixin HookMixin on StatelessWidget implements HookState {
   final _hack = _MutableController();
 
   @override
-  Element createElement() {
+  StatelessElement createElement() {
     return _HookElement(this);
   }
 
@@ -91,11 +90,9 @@ mixin HookMixin on Widget implements HookState {
 
   @override
   R use<R extends Hook>(R hook) => _hack.use<R>(hook);
-
-  Widget build(BuildContext context);
 }
 
-class _HookElement extends ComponentElement {
+class _HookElement extends StatelessElement {
   final _hookController = _HookController();
 
   _HookElement(super.widget);
@@ -129,7 +126,7 @@ class _HookElement extends ComponentElement {
 
   @override
   Widget build() {
-    final child = widget.build(this);
+    final child = super.build();
     if (_hookController._hookIndex == 0) {
       debugPrint('No use for hook found in ${widget.runtimeType}');
     }
