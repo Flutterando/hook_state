@@ -99,11 +99,10 @@ class _ExampleWidgetState extends State<ExampleWidget> with HookStateMixin {
 
 | Hook                       | Description                                                |
 |----------------------------|------------------------------------------------------------|
-| `useNotifier`              | Create a `ValueNotifier` and returns its value             |
+| `useValueNotifier`         | Create a `ValueNotifier` and returns its value             |
 | `useListenable`            | Listen a `Listenable` like `ChangeNotifier`                |
 | `useListenableChanged`     | Listen a `Listenable` and execute a callback               |
-| `useValueNotifier`         | Listen a `ValueNotifier` and returns its value             |
-| `useValueSelector`         | Listen a `ValueSelector` and returns its value             |
+| `useValueListenable`       | Listen a `ValueNotifier` and returns its value             |
 | `useStream`                | Listens to a `Stream` and returns the latest emitted value |
 | `useStreamChanged`         | Listen a `Listenable` and execute a callback               |
 | `useStreamController`      | Create a `StreamController`                                |
@@ -206,64 +205,6 @@ class _CustomWidgetState extends State<CustomWidget> {
 }
 ```
 
-# Computed ValueNotifier with ValueSelector/AsyncValueSelector
-
-## ValueSelector
-
-`ValueSelector` is a tool that allows you to derive new state from existing state in a
-Flutter application.
-
-It is designed to compute a synchronous value based on a provided function.
-When the dependent state changes, `ValueSelector` will recompute the value and
-notify any listeners, so your UI can reactively update.
-
-```dart
-final nameState = ValueNotifier('name');
-final lastNameState = ValueNotifier('last');
-
-final fullNameSelector = ValueSelector<String>(
-  (get) {
-    final name = get(nameState);
-    final lastName = get(lastNameState);
-    return '$name $lastName';
-  },
-);
-```
-
-## AsyncValueSelector
-
-`AsyncValueSelector` is similar to `ValueSelector` but is designed for asynchronous operations.
-This means it can handle tasks like fetching data from an API or performing
-long-running calculations without blocking the main thread.
-
-It ensures that
-only one asynchronous task is processed at a time, and notifies listeners
-once the new value is ready.
-
-```dart 
-
-final userId = ValueNotifier<int>(1);
-
-final userSelector = AsyncValueSelector<User>(
-  (get) async {
-    final id = get(userId);
-    final response = await http.get('https://jsonplaceholder.typicode.com/users/$id');
-    return User.fromJson(json.decode(response.body));
-  },
-);
-
-```
-
-Use the `useValueSelector` hooks to listen to the computed values.
-
-```dart
-Widget build(BuildContext context){
-  final user = useValueSelector(userSelector);
-  ...
-}
-```
-
-```dart
 
 ## Contribution
 
@@ -273,6 +214,3 @@ Contributions are welcome! Feel free to open issues and pull requests on the Git
 
 This project is licensed under the MIT License. See the LICENSE file for more information.
 
----
-
-This package was inspired by React hooks and the `flutter_hooks` package but aims to simplify the development experience in Flutter by eliminating the need for additional custom widgets.

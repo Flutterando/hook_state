@@ -18,8 +18,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with HookStateMixin {
   @override
   Widget build(BuildContext context) {
-    final state = useNotifier(0);
-    final state2 = useValueNotifier(counter);
+    final state = useValueNotifier(0);
+    final state2 = useValueListenable(counter);
     final state3 = useStream(controller.stream, 0);
     useListenableChanged([counter2], () {
       print('Only callback ${counter.value}');

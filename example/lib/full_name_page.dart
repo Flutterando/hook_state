@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hook_state/hook_state.dart';
+import 'package:value_selectable/value_selectable.dart';
 
 final nameState = ValueNotifier('');
 final lastNameState = ValueNotifier('');
@@ -23,7 +24,7 @@ class FullNamePage extends StatefulWidget {
 class _FullNamePageState extends State<FullNamePage> with HookStateMixin {
   @override
   Widget build(BuildContext context) {
-    final fullName = useValueSelector(fullNameSelector);
+    final fullName = useValueListenable(fullNameSelector);
 
     return Scaffold(
       appBar: AppBar(

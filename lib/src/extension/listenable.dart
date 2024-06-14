@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 import '../hook.dart';
 import '../hook_state.dart';
@@ -14,13 +14,13 @@ extension ListenableHookStateExtension on HookState {
     return use(hook).listenable;
   }
 
-  /// Registers a ValueNotifierHook to listen to a ValueNotifier.
-  /// Returns the current value of the ValueNotifier.
-  R useValueNotifier<R>(
-    ValueNotifier<R> notifier, {
+  /// Listen a ValueListenable.
+  /// Returns the current value of the ValueListenable.
+  R useValueListenable<R>(
+    ValueListenable<R> notifier, {
     bool Function(R value)? when,
   }) {
-    final hook = _ListenableHook<ValueNotifier<R>>(
+    final hook = _ListenableHook<ValueListenable<R>>(
       notifier,
       (notifier) => when?.call(notifier.value) ?? true,
     );
@@ -28,8 +28,7 @@ extension ListenableHookStateExtension on HookState {
   }
 
   /// Registers a callback to be executed when a Listenable changes.
-  void useListenableChanged(
-      List<Listenable> notifiers, void Function() callback) {
+  void useListenableChanged(List<Listenable> notifiers, void Function() callback) {
     final listeners = Listenable.merge(notifiers);
     final hook = _ListenableChangedHook(listeners, () {
       callback();
@@ -40,9 +39,8 @@ extension ListenableHookStateExtension on HookState {
 
   /// Registers a ValueNotifier with an initial value.
   /// Returns the ValueNotifier.
-  ValueNotifier<R> useNotifier<R>(R initialValue) {
-    final hook =
-        _ListenableHook<ValueNotifier<R>>(ValueNotifier(initialValue), null);
+  ValueNotifier<R> useValueNotifier<R>(R initialValue) {
+    final hook = _ListenableHook<ValueNotifier<R>>(ValueNotifier(initialValue), null);
     return use(hook).listenable;
   }
 }

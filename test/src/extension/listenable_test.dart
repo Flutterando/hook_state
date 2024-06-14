@@ -3,8 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hook_state/hook_state.dart';
 
 void main() {
-  testWidgets('useListenable updates the widget when the Listenable changes',
-      (WidgetTester tester) async {
+  testWidgets('useListenable updates the widget when the Listenable changes', (WidgetTester tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
@@ -23,9 +22,7 @@ void main() {
     expect(find.text('1'), findsOneWidget);
   });
 
-  testWidgets(
-      'useValueNotifier updates the widget when the ValueNotifier changes',
-      (WidgetTester tester) async {
+  testWidgets('useValueListenable updates the widget when the ValueNotifier changes', (WidgetTester tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
@@ -44,8 +41,7 @@ void main() {
     expect(find.text('1'), findsOneWidget);
   });
 
-  testWidgets('useCallback is called when the Listenable changes',
-      (WidgetTester tester) async {
+  testWidgets('useCallback is called when the Listenable changes', (WidgetTester tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
@@ -69,8 +65,7 @@ void main() {
     expect(find.text('2'), findsOneWidget);
   });
 
-  testWidgets('useNotifier updates the widget when the ValueNotifier changes',
-      (WidgetTester tester) async {
+  testWidgets('useValueNotifier updates the widget when the ValueNotifier changes', (WidgetTester tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
@@ -89,7 +84,7 @@ void main() {
     expect(find.text('1'), findsOneWidget);
   });
 
-  testWidgets('useNotifier in Stateless', (tester) async {
+  testWidgets('useValueNotifier in Stateless', (tester) async {
     final notifier = ValueNotifier<int>(0);
 
     await tester.pumpWidget(
@@ -124,7 +119,7 @@ class TestStatelessWidget extends Widget with HookMixin {
 
   @override
   Widget build(BuildContext context) {
-    final value = useValueNotifier(notifier);
+    final value = useValueListenable(notifier);
     return Text('$value');
   }
 }
@@ -136,8 +131,7 @@ class TestListenableWidget extends StatefulWidget {
   State<TestListenableWidget> createState() => _TestListenableWidgetState();
 }
 
-class _TestListenableWidgetState extends State<TestListenableWidget>
-    with HookStateMixin<TestListenableWidget> {
+class _TestListenableWidgetState extends State<TestListenableWidget> with HookStateMixin<TestListenableWidget> {
   final notifier = ValueNotifier<int>(0);
 
   @override
@@ -157,17 +151,15 @@ class TestValueNotifierWidget extends StatefulWidget {
   const TestValueNotifierWidget({super.key});
 
   @override
-  State<TestValueNotifierWidget> createState() =>
-      _TestValueNotifierWidgetState();
+  State<TestValueNotifierWidget> createState() => _TestValueNotifierWidgetState();
 }
 
-class _TestValueNotifierWidgetState extends State<TestValueNotifierWidget>
-    with HookStateMixin<TestValueNotifierWidget> {
+class _TestValueNotifierWidgetState extends State<TestValueNotifierWidget> with HookStateMixin<TestValueNotifierWidget> {
   final notifier = ValueNotifier<int>(0);
 
   @override
   Widget build(BuildContext context) {
-    final value = useValueNotifier(notifier);
+    final value = useValueListenable(notifier);
 
     return GestureDetector(
       onTap: () {
@@ -185,8 +177,7 @@ class TestCallbackWidget extends StatefulWidget {
   State<TestCallbackWidget> createState() => _TestCallbackWidgetState();
 }
 
-class _TestCallbackWidgetState extends State<TestCallbackWidget>
-    with HookStateMixin<TestCallbackWidget> {
+class _TestCallbackWidgetState extends State<TestCallbackWidget> with HookStateMixin<TestCallbackWidget> {
   int callbackCount = 0;
   final notifier = ValueNotifier<int>(0);
 
@@ -214,11 +205,10 @@ class TestNotifierWidget extends StatefulWidget {
   State<TestNotifierWidget> createState() => _TestNotifierWidgetState();
 }
 
-class _TestNotifierWidgetState extends State<TestNotifierWidget>
-    with HookStateMixin {
+class _TestNotifierWidgetState extends State<TestNotifierWidget> with HookStateMixin {
   @override
   Widget build(BuildContext context) {
-    final notifier = useNotifier<int>(0);
+    final notifier = useValueNotifier<int>(0);
 
     return GestureDetector(
       onTap: () {

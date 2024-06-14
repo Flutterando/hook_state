@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hook_state/hook_state.dart';
+import 'package:value_selectable/value_selectable.dart';
 
 final userIDState = ValueNotifier(1);
 
@@ -8,8 +9,7 @@ final userState = AsyncValueSelector<User?>(
   null,
   (get) async {
     final userID = get(userIDState);
-    final response =
-        await Dio().get('https://jsonplaceholder.typicode.com/users/$userID');
+    final response = await Dio().get('https://jsonplaceholder.typicode.com/users/$userID');
 
     return User.fromJson(response.data);
   },
@@ -25,7 +25,7 @@ class ApiPage extends StatefulWidget {
 class _ApiPageState extends State<ApiPage> with HookStateMixin {
   @override
   Widget build(BuildContext context) {
-    final user = useValueSelector(userState);
+    final user = useValueListenable(userState);
     final controller = useTextEditingController();
     return Scaffold(
       appBar: AppBar(
