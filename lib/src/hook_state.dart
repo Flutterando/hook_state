@@ -5,13 +5,18 @@ import 'hook.dart';
 class _HookController {
   var _hookIndex = 0;
   final _hooks = <Hook>[];
+  final void Function() _listener;
 
-  R use<R extends Hook>(R hook, void Function() listener) {
+  _HookController(this._listener);
+
+  static _HookController? _currentInstance;
+
+  R use<R extends Hook>(R hook) {
     late Hook value;
     if (_hooks.length > _hookIndex) {
       value = _hooks[_hookIndex];
     } else {
-      hook.setState = listener;
+      hook.setState = _listener;
       hook.init();
       _hooks.add(hook);
       value = hook;
@@ -45,14 +50,14 @@ abstract class HookState {
 }
 
 mixin HookStateMixin<T extends StatefulWidget> on State<T> implements HookState {
-  final _hookController = _HookController();
+  late final _hookController = _HookController(_listener);
 
   @override
   void resetIndex() => _hookController.resetIndex();
 
   @override
   R use<R extends Hook>(R hook) {
-    return _hookController.use(hook, _listener);
+    return _hookController.use(hook);
   }
 
   void _listener() => setState(resetIndex);
@@ -70,30 +75,21 @@ mixin HookStateMixin<T extends StatefulWidget> on State<T> implements HookState 
   }
 }
 
-class _MutableController {
-  _HookController? hookController;
-  void Function()? listener;
-
-  R use<R extends Hook>(R hook) => hookController!.use<R>(hook, listener!);
-}
-
 mixin HookMixin on StatelessWidget implements HookState {
-  final _hack = _MutableController();
-
   @override
   StatelessElement createElement() {
     return _HookElement(this);
   }
 
   @override
-  void resetIndex() => _hack.hookController!.resetIndex();
+  void resetIndex() => _HookController._currentInstance!.resetIndex();
 
   @override
-  R use<R extends Hook>(R hook) => _hack.use<R>(hook);
+  R use<R extends Hook>(R hook) => _HookController._currentInstance!.use<R>(hook);
 }
 
 class _HookElement extends StatelessElement {
-  final _hookController = _HookController();
+  late final _hookController = _HookController(invalidate);
 
   _HookElement(super.widget);
 
@@ -103,13 +99,6 @@ class _HookElement extends StatelessElement {
   void invalidate() {
     _hookController.resetIndex();
     markNeedsBuild();
-  }
-
-  @override
-  void mount(Element? parent, Object? newSlot) {
-    widget._hack.hookController = _hookController;
-    widget._hack.listener = invalidate;
-    super.mount(parent, newSlot);
   }
 
   @override
@@ -126,7 +115,9 @@ class _HookElement extends StatelessElement {
 
   @override
   Widget build() {
+    _HookController._currentInstance = _hookController;
     final child = super.build();
+    _HookController._currentInstance = null;
     if (_hookController._hookIndex == 0) {
       debugPrint('No use for hook found in ${widget.runtimeType}');
     }

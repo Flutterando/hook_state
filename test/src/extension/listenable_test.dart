@@ -115,7 +115,7 @@ void main() {
 class TestStatelessWidget extends StatelessWidget with HookMixin {
   final ValueNotifier<int> notifier;
 
-  TestStatelessWidget({super.key, required this.notifier});
+  const TestStatelessWidget({super.key, required this.notifier});
 
   @override
   Widget build(BuildContext context) {

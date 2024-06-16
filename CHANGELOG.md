@@ -1,3 +1,7 @@
+## 0.4.2
+
+* fix: HookMixin with const;
+
 ## 0.4.1
 
 * HookMixin now in Stateless;
